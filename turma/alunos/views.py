@@ -1,9 +1,14 @@
 from django.shortcuts import render
-from . import models
+from .models import Aluno
+
+
 # Create your views here.
 def index(request):
-    nome = request.POST.get("txtNome")
-    cpf = request.POST.get("txtCpf")
+    alunos = Aluno.objects.all()
+    return render(request, "alunos/index.html", {
+        "alunos": alunos
+    })
 
-    aluno = models.Aluno()
+
+def cadastro(request):
     return render(request, "alunos/cadastro.html")

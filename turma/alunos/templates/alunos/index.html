@@ -1,0 +1,28 @@
+{% extends 'alunos/layout.html' %}
+{% block title %} Alunos {% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>Alunos Cadastrados</h1>
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Nome</th>
+                    <th>CPF</th>
+                    <th>Data. Nasc.</th>
+                    <th>Email</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for aluno in alunos %}
+                    <tr>
+                        <td>{{aluno.nome}}</td>
+                        <td>{{aluno.cpf}}</td>
+                        <td>{{aluno.dtnasc}}</td>
+                        <td>{{aluno.email}}</td>
+                    </tr>
+                {%  endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
