@@ -1,0 +1,73 @@
+{% extends 'alunos/layout.html' %}
+
+{% block title %} Alunos {% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1 class="pt-5 pb-5">Alunos Cadastrados</h1>
+        <div class="overflow-auto mb-5" style="max-height: 60vh;">
+            <table class="table table-bordered table-striped table-light">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Id</th>
+                        <th>Nome</th>
+                        <th>CPF</th>
+                        <th>Data. Nasc.</th>
+                        <th>Email</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if not alunos %}
+                        {% if consulta %}
+                            <tr>
+                                <td colspan="6">Ainda não há alunos cadastrados com o nome "{{consulta}}".</td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="6">Ainda não há alunos cadastrados</td>
+                            </tr>
+                        {% endif %}
+                    {% else %}
+                        {% for aluno in alunos %}
+                            <tr>
+                                <td>{{aluno.id}}</td>
+                                <td>{{aluno.nome}}</td>
+                                <td>{{aluno.cpf}}</td>
+                                <td>{{aluno.dtnasc}}</td>
+                                <td>{{aluno.email}}</td>
+                                <td>
+                                    <form class="d-inline" action="{% url 'index' %}" method="post">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="delete" value="{{aluno.id}}">
+                                        <input class="btn btn-danger btn-sm" type="submit" value="Excluir">
+                                    </form>
+                                    <form class="d-inline" action="{% url 'edit' aluno.id %}" method="post">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="id" value="{{aluno.id}}">
+                                        <input class="btn btn-warning text-white btn-sm" type="submit" value="Editar">
+                                    </form>
+                                </td>
+                            </tr>
+                        {%  endfor %}
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+        <div class="row">
+            <div class="col d-inline">
+                <span class="">
+                    <a class="btn btn-primary text-white" href="{% url 'cadastro' %}">Cadastrar Aluno</a>
+                </span>
+            </div>
+            <div class="col">
+                <form action="{% url 'index' %}" method="get" class="col-sm d-flex">
+                    <input name="consulta" class="form-control me-1" type="text" placeholder="Pesquisar Alunos">
+                    <input class="btn btn-success" type="submit" value="Pesquisar">
+                </form>
+            </div>
+            
+        </div>
+    </div>
+
+{% endblock %}
